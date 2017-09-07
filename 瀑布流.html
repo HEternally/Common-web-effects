@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>瀑布流</title>
+  <style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    #container {
+      position:relative;
+    }
+    .box {
+      float:left;
+      padding:5px;
+      transition:all 2s;
+    }
+    .box_img {
+      padding:5px;
+      border:1px solid #ccc;
+      box-shadow: 0 0 5px #ccc;
+      border-radius:5px;
+    }
+    .box_img img {
+      width:250px;
+      height:auto;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div class="box">
+      <div class="box_img">
+          <img src="img/img1.jpg" width="500" height="750">
+      </div>
+    </div>
+    <div class="box">
+      <div class="box_img">
+          <img src="img/img2.jpg" width="500" height="566">
+      </div>
+    </div>
+    <div class="box">
+      <div class="box_img">
+          <img src="img/img3.jpg" width="500" height="309">
+      </div>
+    </div>
+    <div class="box">
+      <div class="box_img">
+          <img src="img/img4.jpg" width="532" height="300">
+      </div>
+    </div>
+    <div class="box">
+      <div class="box_img">
+          <img src="img/img5.jpg" width="500" height="330">
+      </div>
+    </div>
+    <div class="box">
+      <div class="box_img">
+          <img src="img/img6.jpg" width="500" height="376">
+      </div>
+    </div>
+    <div class="box">
+      <div class="box_img">
+          <img src="img/img7.jpg" width="500" height="728">
+      </div>
+    </div>
+    <div class="box">
+      <div class="box_img">
+          <img src="img/img1.jpg" width="500" height="750">
+      </div>
+    </div>
+    <div class="box">
+      <div class="box_img">
+          <img src="img/img2.jpg" width="500" height="566">
+      </div>
+    </div>
+    <div class="box">
+      <div class="box_img">
+          <img src="img/img3.jpg" width="500" height="309">
+      </div>
+    </div>
+    <div class="box">
+      <div class="box_img">
+          <img src="img/img4.jpg" width="532" height="300">
+      </div>
+    </div>
+    <div class="box">
+      <div class="box_img">
+          <img src="img/img5.jpg" width="500" height="330">
+      </div>
+    </div>
+    <div class="box">
+      <div class="box_img">
+          <img src="img/img6.jpg" width="500" height="376">
+      </div>
+    </div>
+    <div class="box">
+      <div class="box_img">
+          <img src="img/img7.jpg" width="500" height="728">
+      </div>
+    </div>
+    <div class="box">
+      <div class="box_img">
+          <img src="img/img1.jpg" width="500" height="750">
+      </div>
+    </div>
+    <div class="box">
+      <div class="box_img">
+          <img src="img/img2.jpg" width="500" height="566">
+      </div>
+    </div>
+    <div class="box">
+      <div class="box_img">
+          <img src="img/img3.jpg" width="500" height="309">
+      </div>
+    </div>
+    <div class="box">
+      <div class="box_img">
+          <img src="img/img4.jpg" width="532" height="300">
+      </div>
+    </div>
+    <div class="box">
+      <div class="box_img">
+          <img src="img/img5.jpg" width="500" height="330">
+      </div>
+    </div>
+    <div class="box">
+      <div class="box_img">
+          <img src="img/img6.jpg" width="500" height="376">
+      </div>
+    </div>
+    <div class="box">
+      <div class="box_img">
+          <img src="img/img7.jpg" width="500" height="728">
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+  var cparent = document.getElementById("container");
+
+  window.onload = function(){
+    imglocation("container","box");
+    var imgData = {"data":[{"src":"img2.jpg"},{"src":"img3.jpg"},{"src":"img4.jpg"},{"src":"img5.jpg"},{"src":"img6.jpg"}]};
+    
+    window.onscroll = function(){
+      if(checkFlag()){
+        for(var i = 0;i<imgData.data.length;i++) {
+          var ccontent = document.createElement("div");
+          ccontent.className = "box";
+          cparent.appendChild(ccontent);
+          var boximg = document.createElement("div");
+          boximg.className = "box_img";
+          ccontent.appendChild(boximg);
+          var Img = document.createElement("img");
+          Img.src = "img/" + imgData.data[i].src;
+          boximg.appendChild(Img);
+        }
+      }
+      imglocation("container","box");
+    }
+
+    window.onresize = function() {
+      imglocation("container","box");
+    }
+  }
+
+  function checkFlag() {
+    var ccontent = getChildElement(parent,"box");
+    var lastContentHeight = ccontent[ccontent.length - 1].offsetTop;
+    var scrollTop = document.documentElement.scrollTop ||document.body.scrollTop;
+    var pageHeight = document.documentElement.clientHeight || document.body.clientHeight;
+    if(lastContentHeight < scrollTop + pageHeight) {
+       return true;
+    }  
+  }
+
+  function imglocation(parent,content) {
+    //将parent中内容全部取出,获取所以图片
+    var ccontent = getChildElement(cparent,content);
+    var imgWidth = ccontent[0].clientWidth;//图片的宽度
+    var OWidth = document.documentElement.clientWidth;//窗口宽度
+    var num = Math.floor(OWidth/imgWidth);
+    cparent.style.cssText = "width:" + imgWidth * num + "px;margin: 0 auto;";
+    var BoxheightArr = [];
+    for(var i = 0;i<ccontent.length;i++){
+      if(i<num){
+        BoxheightArr[i] = ccontent[i].offsetHeight;
+        ccontent[i].style = "";
+      } else {
+        var minHeight = Math.min.apply(null,BoxheightArr);
+        var minIndex = getminheightLocation(BoxheightArr,minHeight);
+        ccontent[i].style.position = "absolute";
+        ccontent[i].style.top = minHeight + "px";
+        ccontent[i].style.left = ccontent[minIndex].offsetLeft + "px";
+        BoxheightArr[minIndex] = BoxheightArr[minIndex] + ccontent[i].offsetHeight;
+      }
+    }
+  }
+
+  function getminheightLocation(BoxheightArr,minHeight) {
+    for(var i in BoxheightArr){
+      if(BoxheightArr[i] == minHeight) {
+        return i;
+      }
+    }
+  }
+
+  function getChildElement(parent,content){
+    var contentArr = [];
+    var allcontent = document.getElementsByTagName("*");
+    for(var i = 0; i<allcontent.length;i++) {
+      if(allcontent[i].className == content) {
+        contentArr.push(allcontent[i]);
+      }
+    }
+    return contentArr;
+  }
+  </script>
+</body>
+</html>

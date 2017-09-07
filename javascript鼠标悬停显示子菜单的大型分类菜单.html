@@ -1,0 +1,701 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>js仿新浪游戏频道导航条</title>
+<style type="text/css">
+*{margin:0;padding:0;}
+body{font:14px "微软雅黑", arial, serif;color:#333;}
+a,a:link,a:visited{color:#039;}
+img{border:0;}
+.header_bg{width:100%;height:128px;background:url(http://www.codefans.net/jscss/demoimg/201404/header.jpg) no-repeat center top;}
+.header{margin:0 auto 0 auto;width:988px;height:128px;background:url(http://www.codefans.net/jscss/demoimg/201404/header_z.jpg) no-repeat center top;}
+.nav{position:relative;left:4px;top:92px;width:950px;height:35px;background:#333;border-top:1px solid #444;}
+.nav .list{list-style-type:none;margin-left:15px;}
+.nav .list li{float:left;position:relative;height:35px;line-height:26px;}
+.nav .list li .game_hover{float:left;display:block;margin-top:5px;height:30px;padding:0 10px 0 10px;color:#ccc;font-weight:bold;text-decoration:none;}
+.nav .list li .game_hover_current,
+.nav .list li .game_hover:hover{background-color:#fff;color:#575757;margin-top:4px;padding:0 9px 0 9px;border:1px solid #666;border-bottom:0;}
+.hover_cont{display:none;position:absolute;width:auto;height:auto; top:35px;border:1px solid #666;border-top:0;border-bottom-width:2px;background:#fff;z-index:1000;}
+.hover_cont .nav_cont{padding:15px;padding-bottom:0;}
+.hover_cont .nav_li{display:inline-block;width:100%;height:100%;*height:auto;*margin-top:7px;padding-bottom:5px;*padding-bottom:12px;border-bottom:1px dashed #ccc;}
+.hover_cont .nav_li_l{float:left;width:80px;color:#f60;font-weight:bold;}
+.hover_cont .nav_li_r{float:left;color:#999;font-family:"宋体";font-size:10px;line-height:26px;}
+.hover_cont .nav_li_r a{padding:0 1px 0 1px;color:#666;font-size:12px;text-decoration:none;}
+.hover_cont .nav_li_r a:hover{color:red;}
+.hover_cont .nav_li_r a.orange{color:#f60;}
+.nav .list .wlyx{width:720px;left:0;}
+.nav .list .djdj{width:800px;left:0;}
+.nav .list .yy{width:740px;left:0;}
+.nav .list .dwsy{width:750px;left:0;}
+.nav .list .xsk{width:740px;left:0;}
+.nav .list .cgwr{width:610px;left:0;}
+.nav .list .xz{width:630px;right:0;}
+.nav .list .mt{width:580px;right:0;}
+.nav .list .kyx{width:610px;right:0;}
+.nav .list .wt{width:510px;right:0;}
+.nav .list .cy{width:540px;right:0;}
+.nav .list .wb{width:710px;right:0;}
+.nav .list .xyx{width:740px;right:0;}
+.nav .list .sp{width:730px;right:0;}
+.nav .list .sc{width:700px;right:0;}
+.content{margin:15px auto 0 auto;width:980px;height:500px;background:#ccc;}
+</style>
+<script type="text/javascript">
+var $$ = function (id) {
+    return document.getElementById(id);
+}
+var getByClass = function (oParent, sClass) {
+    var aEle = oParent.getElementsByTagName("*");
+    var re = new RegExp("\\b" + sClass + "\\b");
+    var arr = [];
+    for (var i = 0; i < aEle.length; i++) {
+        if (re.test(aEle[i].className)) {
+            arr.push(aEle[i]);
+        }
+    }
+    return arr;
+}
+var setMainNav = function () {
+    var oMainNav = $$("mainNav");
+    var aLi = getByClass(oMainNav, "list")[0].getElementsByTagName("li");
+    var aGameHover = getByClass(oMainNav, "game_hover");
+    var aHoverCont = getByClass(oMainNav, "hover_cont");
+    for (var i = 0; i < aGameHover.length; i++) {
+        aGameHover[i].index = i;
+        aGameHover[i].onmouseover = function () {
+            this.className += " "+"game_hover_current";
+            for (var j = 0; j < aHoverCont.length; j++) {
+                aHoverCont[j].index_j = j;
+                aHoverCont[j].style.display = "none";
+                aHoverCont[j].onmouseover = function () {
+                    this.style.display = "block";
+                    aGameHover[this.index_j].className += " "+"game_hover_current";
+                }
+                aHoverCont[j].onmouseout = function () {
+                    this.style.display = "none";
+                }
+            }
+            if (aHoverCont[this.index]) {
+                aHoverCont[this.index].style.display = "block";
+            }
+        }
+    }
+    for (var i = 0; i < aLi.length; i++) {
+        aLi[i].index = i;
+        aLi[i].onmouseout = function () {
+            if (aHoverCont[this.index]) {
+                aHoverCont[this.index].style.display = "none";
+            }
+            aGameHover[this.index].className = "game_hover";
+        }
+    }
+}
+window.onload = function () {
+    setMainNav();
+}
+</script>
+</head>
+<body>
+<div class="header_bg">
+    <div class="header">
+        <div class="nav" id="mainNav">
+            <ul class="list">
+                <li>
+                    <a href="#" class="game_hover">网络游戏</a>
+                    <div class="hover_cont wlyx">
+                        <div class="nav_cont">
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    热门网游
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="#">问道</a>┊<a href="#">DOTA2</a>┊<a href="#">魔兽世界</a>┊<a href="#">梦幻西游</a>┊<a href="#">九阴真经</a>┊<a href="#">颓废之心</a>┊<a href="#">英雄联盟</a>┊<a href="#">天龙八部</a>┊<a href="#">龙之谷</a>┊<a href="#">星辰变</a><br />
+                                      <a href="#">剑灵</a>┊<a href="#">征途2</a>┊<a href="#">神鬼世界</a>┊<a href="#">剑侠情缘3</a>┊<a href="#">倩女幽魂</a>┊<a href="#">永恒之塔</a>┊<a href="#">仙侠世界</a>┊<a href="#">龙门客栈</a>┊<a href="#">独孤求败</a>┊<a href="#">神武</a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    期待网游
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="#">问道</a>┊<a href="#">DOTA2</a>┊<a href="#">魔兽世界</a>┊<a href="#">梦幻西游</a>┊<a href="#">九阴真经</a>┊<a href="#">颓废之心</a>┊<a href="#">英雄联盟</a>┊<a href="#">天龙八部</a>┊<a href="#">龙之谷</a>┊<a href="#">星辰变</a><br />
+                                      <a href="#">剑灵</a>┊<a href="#">征途2</a>┊<a href="#">神鬼世界</a>┊<a href="#">剑侠情缘3</a>┊<a href="#">倩女幽魂</a>┊<a href="#">永恒之塔</a>┊<a href="#">仙侠世界</a>┊<a href="#">龙门客栈</a>┊<a href="#">独孤求败</a>┊<a href="#">神武</a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    新游尾行
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="怪物猎人OL">怪物猎人OL全球玩家评论收集</a>┊<a href="/" title="圣王_新浪游戏">圣王首测视频解说</a>┊<a href="/" title="龙门客栈_新浪游戏">龙门客栈五大特色详解</a>┊<a href="/" title="行星边际2_新浪游戏">行星边际2老玩家10大建议</a>┊<a href="/" title="新游尾行汇总页" class="orange">更多>></a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    热门厂商
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="腾讯游戏_新浪游戏">腾讯游戏</a>┊<a href="/" title="网易游戏_新浪游戏">网易游戏</a>┊<a href="/" title="盛大游戏_新浪游戏">盛大游戏</a>┊<a href="/" title="完美世界_新浪游戏">完美世界</a>┊<a href="/" title="巨人网络_新浪游戏">巨人网络</a>┊<a href="/" title="畅游_新浪游戏">畅游</a>┊<a href="/" title="游戏蜗牛_新浪游戏">游戏蜗牛</a>┊<a href="/" title="空中网_新浪游戏">空中网</a>┊<a href="/" title="麒麟游戏_新浪游戏">麒麟游戏</a>┊<a href="/" title="昆仑万维_新浪游戏">昆仑万维</a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    本周测试
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="狂刃内测">狂刃内测</a>┊<a href="/" title="战灵首测">战灵首测</a>┊<a href="/" title="新水浒Q传2内测">新水浒Q传2内测</a>┊<a href="/" title="骑士3.0首测">骑士3.0首测</a>┊<a href="/" title="龙门客栈公测">龙门客栈公测</a>┊<a href="/" title="狂剑公测">狂剑公测</a>┊<a href="/" title="末日屠龙首测">末日屠龙首测</a>┊<a href="/" title="更多" class="orange">更多>></a>
+                                </div>
+                            </div>
+                            <div class="nav_li" style="border: 0;">
+                                <div class="nav_li_l">
+                                    玩家频道
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="玩家聚焦">玩家聚焦关注游戏焦点</a>┊<a href="/" title="八卦趣闻">八卦趣闻包揽奇闻趣事</a>┊<a href="/" title="雷人囧图">雷人囧图尽享美女盛宴</a>┊<a href="/" title="搞笑视频">搞笑视频看遍人间悲喜</a>┊<a href="/" title="更多" class="orange">更多>></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="game_hover">单机电竞</a>
+                    <div class="hover_cont djdj">
+                        <div class="nav_cont">
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    角色扮演
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="暗黑破坏神3">暗黑破坏神3</a>┊<a href="/" title="仙剑奇侠传5">仙剑奇侠传5</a>┊<a href="/" title="古剑奇谭">古剑奇谭</a>┊<a href="/" title="质量效应3">质量效应3</a>┊<a href="/" title="仙剑5前传">仙剑5前传</a>┊<a href="/" title="最后的神迹">最后的神迹</a>┊<a href="/" title="上古卷轴5">上古卷轴5</a>┊<a href="/" title="轩辕剑：云之遥">轩辕剑：云之遥</a>┊<a href="/" title="巫师2">巫师2</a>┊<a href="/" title="更多"class="orange">更多>></a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    射击游戏
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="使命召唤9：黑色行动2">使命召唤9</a>┊<a href="/" title="幽灵行动4">幽灵行动4</a>┊<a href="/" title="孤岛危机3">孤岛危机3</a>┊<a href="/" title="杀出重围3">杀出重围3</a>┊<a href="/" title="传送门2">传送门2</a>┊<a href="/" title="生化奇兵：无限">生化奇兵：无限</a>┊<a href="/" title="皇牌空战7">皇牌空战7</a>┊<a href="/" title="孤岛惊魂3">孤岛惊魂3</a>┊<a href="/" title="狙击精英V2">狙击精英V2</a>┊<a href="/" title="更多"class="orange">更多>></a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    动作冒险
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="马克思佩恩3">马克思佩恩3</a>┊<a href="/" title="杀手5：赦免">杀手5：赦免</a>┊<a href="/" title="热血无赖">热血无赖</a>┊<a href="/" title="羞辱">羞辱</a>┊<a href="/" title="刺客信条3">刺客信条3</a>┊<a href="/" title="古墓丽影9">古墓丽影9</a>┊<a href="/" title="虐杀原形2">虐杀原形2</a>┊<a href="/" title="强袭装甲零号">强袭装甲零号</a>┊<a href="/" title="更多"class="orange">更多>></a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    策略游戏
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="星际争霸2">星际争霸2</a>┊<a href="/" title="魔兽争霸3">魔兽争霸3</a>┊<a href="/" title="DOTA2">DOTA2</a>┊<a href="/" title="纪元2070">纪元2070</a>┊<a href="/" title="海商王3">海商王3</a>┊<a href="/" title="文明5">文明5</a>┊<a href="/" title="三国志12">三国志12</a>┊<a href="/" title="将军2：武士之殇">将军2：武士之殇</a>┊<a href="/" title="模拟城市5">模拟城市5</a>┊<a href="/" title="英雄无敌6">英雄无敌6</a>┊<a href="/" title="更多"class="orange">更多>></a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    体育竞速
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="极品飞车17">极品飞车17</a>┊<a href="/" title="尘埃决战">尘埃决战</a>┊<a href="/" title="山脊赛车：无限">山脊赛车：无限</a>┊<a href="/" title="FIFA 13">FIFA足球13</a>┊<a href="/" title="实况足球2013">实况足球2013</a>┊<a href="/" title="NBA2K13">NBA2K13</a>┊<a href="/" title="无限试驾2">无限试驾2</a>┊<a href="/" title="争分夺秒">争分夺秒</a>┊<a href="/" title="更多"class="orange">更多>></a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    期待新作
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="赛车计划">赛车计划</a>┊<a href="/" title="轩辕剑6">轩辕剑6</a>┊ <a href="/" title="FIFA 14">FIFA 14</a>┊<a href="/" title="极品飞车18">极品飞车18</a>┊<a href="/" title="古剑奇谭2">古剑奇谭2</a>┊<a href="/" title="侠盗猎车手5">侠盗猎车手5</a>┊<a href="/" title="使命召唤10">使命召唤10</a>┊<a href="/" title="战地4">战地4</a>┊<a href="/" title="罗马2：全面战争">罗马2：全面战争</a>┊<a href="/" title="更多单机游戏" class="orange">更多>></a>
+                                </div>
+                            </div>
+                            <div class="nav_li" style="border: 0;">
+                                <div class="nav_li_l">
+                                    电子竞技
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="#">电子竞技新闻</a>┊<a href="#" title="电子竞技八卦">电子竞技八卦</a>┊<a href="#" title="竞技地图下载">竞技地图下载</a>┊<a href="/" title="竞技录像下载">竞技录像下载</a>┊<a href="/" title="WCG2012专题">WCG2012专题</a>┊<a href="/" title="更多电子竞技" class="orange">更多>></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="game_hover">页游</a>
+                    <div class="hover_cont yy">
+                        <div class="nav_cont">
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    新浪玩玩
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="圣杯传说">圣杯传说</a>┊<a href="/" title="创世三国">创世三国</a>┊<a href="/" title="海神">海神</a>┊<a href="/" title="开天辟地">开天辟地</a>┊<a href="/" title="龙将">龙将</a>┊<a href="/" title="一代宗师">一代宗师</a>┊<a href="/" title="小小海贼王">小小海贼王</a>┊<a href="/" title="足球天下2">足球天下2</a>┊<a href="/" title="神仙道">神仙道</a>┊<a href="http://www.codefans.net/" title="海洋时代2">海洋时代2</a>┊<a href="/" title="富人国">富人国</a><br><a href="/" title="隋唐霸业">隋唐霸业</a>┊<a href="/" title="球王争霸">球王争霸</a>┊<a href="/" title="航海之王">航海之王</a>┊<a href="/" title="范特西篮球">范特西篮球</a>┊<a href="/" title="NBA篮球经理">NBA篮球经理</a>┊<a href="/" title="富豪传奇">富豪传奇</a>┊<a href="/" title="热血三国2">热血三国2</a>┊<a href="/" title="更多"class="orange">更多>></a>
+                                </div>
+                            </div>
+                            <div class="nav_li" style="border: 0;">
+                                <div class="nav_li_l">
+                                    热门页游
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="龙魂天下">龙魂天下</a>┊<a href="/" title="龙歌">龙歌</a>┊<a href="/" title="神仙道">神仙道</a>┊<a href="/" title="美食猎人">美食猎人</a>┊<a href="/" title="弹弹堂">弹弹堂</a>┊<a href="/" title="天珠变">天珠变</a>┊<a href="/" title="大侠传">大侠传</a>┊<a href="/" title="新仙剑奇侠传OL">新仙剑奇侠传OL</a>┊<a href="/" title="绝代双骄">绝代双骄</a>┊<a href="/" title="古剑奇侠">古剑奇侠</a><br><a href="/" title="大三国志">大三国志</a>┊<a href="/" title="烈火战神">烈火战神</a>┊<a href="/" title="信喵之野望">信喵之野望</a>┊<a href="/" title="女仆之心">女仆之心</a>┊<a href="/" title="楚汉传奇">楚汉传奇</a>┊<a href="/" title="热血海贼王">热血海贼王</a>┊<a href="/" title="神曲">神曲</a>┊<a href="/" title="街机三国">街机三国</a>┊<a href="/" title="更多网页游戏" class="orange">更多>></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="game_hover">电玩手游</a>
+                    <div class="hover_cont dwsy">
+                        <div class="nav_cont">
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    热门游戏
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="怪物猎人3">怪物猎人3</a>┊<a href="/" title="战神3">战神3</a>┊<a href="/" title="神秘海域3">神秘海域3</a>┊<a href="/" title="超级街霸4">超级街霸4</a>┊<a href="/" title="使命召唤8">使命召唤8</a>┊<a href="/" title="波斯王子4">波斯王子4</a>┊<a href="/" title="GT赛车5">GT赛车5</a>┊<a href="/" title="极品飞车16">极品飞车16</a>┊<a href="/" title="刺客信条">刺客信条</a>┊<a href="/" title="拳皇13">拳皇13</a><br>
+                                    <a href="/" title="寄生前夜3">寄生前夜3</a>┊<a href="/" title="战地3">战地3</a>┊<a href="/" title="愤怒的小鸟">愤怒的小鸟</a>┊<a href="/" title="真三国无双6">真三国无双6</a>┊<a href="/" title="生化危机">生化危机</a>┊<a href="/" title="最终幻想13-2">最终幻想13-2</a>┊<a href="/" title="勇者斗恶龙6">勇者斗恶龙6</a>┊<a href="/" title="使命召唤8">使命召唤8</a>┊<a href="/" title="英雄传说8">英雄传说8</a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    近期新作
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="DMC：鬼泣">DMC：鬼泣</a>┊<a href="/" title="生化危机6">生化危机6</a>┊<a href="/" title="光环4">光环4</a>┊<a href="/" title="孤岛惊魂3">孤岛惊魂3</a>┊<a href="/" title="刺客信条3">刺客信条3</a>┊<a href="/" title="实况足球2013">实况足球2013</a>┊<a href="/" title="FIFA 13">FIFA 13</a>┊<a href="/" title="NBA 2K13">NBA 2K13</a>┊<a href="/" title="极品飞车17">极品飞车17</a><br>
+                                    <a href="/" title="无主之地2">无主之地2</a>┊<a href="/" title="忍者龙剑传3">忍龙3</a>┊<a href="/" title="海贼王无双">海贼王无双</a>┊<a href="/" title="生化危机：浣熊市行动">生化危机：浣熊市行动</a>┊<a href="/" title="圣斗士星矢战记">圣斗士星矢战记</a>┊<a href="/" title="忍者龙剑传3">上古卷轴5</a>┊<a href="/" title="电锯糖心">电锯糖心</a>┊<a href="/" title="质量效应3">质量效应3</a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    即将发售
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="怪物猎人4">怪物猎人4</a>┊<a href="/" title="口袋妖怪：X/Y">口袋妖怪：X/Y</a>┊<a href="/" title="初音未来：歌姬计划f">初音未来：歌姬计划f</a>┊<a href="/" title="海贼无双2">海贼无双2</a>┊<a href="/" title="真三国无双7">三国无双7</a>┊<a href="/" title="真北斗无双">北斗无双2</a>┊<a href="/" title="死亡空间3">死亡空间3</a>┊<a href="/" title="超时空要塞30">超时空要塞30</a><br>
+                                    <a href="/" title="细胞分裂6">细胞分裂6</a>┊<a href="/" title="GTA5">GTA5</a>┊<a href="/" title="战神：升天">战神：升天</a>┊<a href="/" title="孤岛惊魂3">孤岛惊魂3</a>┊<a href="/" title="古墓丽影9">古墓丽影9</a>┊<a href="/" title="孤岛危机3">孤岛危机3</a>┊<a href="/" title="生化奇兵：无限">生化奇兵：无限</a>┊<a href="/" title="末世余生">末世余生</a>┊<a href="/" title="合金装备崛起">合金装备崛起</a>
+                                </div>
+                            </div>
+                            <div class="nav_li" style="border: 0;">
+                                <div class="nav_li_l">
+                                    手机游戏
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="免费iPhone游戏">免费iPhone游戏</a>┊<a href="/" title="免费Android游戏">免费Android游戏</a>┊<a href="/" title="免费Symbian游戏">免费Symbian游戏</a>┊<a href="/" title="手游新闻">手游新闻</a>┊<a href="/" title="手游攻略">手游攻略</a>┊<a href="/" title="行业新闻">行业新闻</a>┊<a href="/" title="游戏库">游戏库</a>┊<a href="/" title="论坛">论坛</a>┊<a href="/" title="更多手机游戏" class="orange">更多>></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="game_hover">新手卡</a>
+                    <div class="hover_cont xsk">
+                        <div class="nav_cont">
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    热门游戏
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="仙侠世界_新手卡">仙侠世界</a>┊<a href="/"target="_blank" title="圣斗士星矢_新手卡">圣斗士星矢</a>┊<a href="/"target="_blank" title="坦克世界_新手卡">坦克世界</a>┊<a href="/"target="_blank" title="圣境传说_新手卡">圣境传说</a>┊<a href="/"target="_blank" title="桃花源记_新手卡">桃花源记</a>┊<a href="/"target="_blank" title="梦三国_新手卡">梦三国</a>┊<a href="/"target="_blank" title="剑网3_新手卡">剑网3</a>┊<a href="/"target="_blank" title="征途2S_新手卡">征途2S</a>┊<a href="/"target="_blank" title="笑傲江湖_新手卡">笑傲江湖OL</a>┊<a href="/"target="_blank" title="倩女幽魂_新手卡">倩女幽魂</a><br/><a href="/"target="_blank" title="零纪元_新手卡">零纪元</a>┊<a href="/"target="_blank" title="天龙八部_新手卡">天龙八部OL</a>┊<a href="/"target="_blank" title="梦幻西游2_新手卡">梦幻西游2</a>┊<a href="/"target="_blank" title="问道_新手卡">问道</a>┊<a href="/"target="_blank" title="圣杯传说_新手卡">圣杯传说</a>┊<a href="/"target="_blank" title="西游3_新手卡">西游3</a>┊<a href="/"target="_blank" title="颓废之心_新手卡">颓废之心</a>┊<a href="/"target="_blank" title="新水浒Q传_新手卡">新水浒Q传</a>┊<a href="/"target="_blank" title="诛仙2_新手卡">诛仙2</a>┊<a href="/"target="_blank" title="斩魂_新手卡">斩魂</a>┊<a href="/"target="_blank" title="斩魂_新手卡">大唐2</a>┊<a href="/"target="_blank" title="斩魂_新手卡">武魂</a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    特权推荐
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="东方故事_新手卡">东方故事</a>┊ <a href="/" title="魔域_新手卡">魔域</a>┊<a href="/"  title="龙之谷_新手卡">龙之谷</a>┊<a href="/" title="梦幻诛仙2_新手卡">梦幻诛仙2</a>┊<a href="/" title="画皮世界_新手卡">画皮世界</a>┊<a href="/" title="晴空物语_新手卡">晴空物语</a>┊<a href="/" title="星辰变_新手卡">星辰变</a>┊<a href="/" title="神仙传_新手卡">神仙传</a>┊<a href="/" title="NBA2K_新手卡">NBA2K OL</a>┊<a href="/" title="天骄3_新手卡">天骄3</a>┊<a href="/" title="九阴真经_新手卡">九阴真经</a><br/><a href="/" title="神武_新手卡">神武</a>┊<a href="/" title="神魔大陆_新手卡">神魔大陆</a>┊<a href="/" title="新征途_新手卡">新征途</a>┊<a href="/" title="龙之传奇_新手卡">寻龙记</a>┊<a href="/" title="桃园_新手卡">桃园将星录</a>┊<a href="/" title="神雕侠侣_新手卡">神雕侠侣</a>┊<a href="/" title="仙侠世界_新手卡">仙侠世界</a>┊<a href="/" title="屠龙传说_新手卡">屠龙传说</a>┊<a href="/" title="封神榜3_新手卡">封神榜3</a>┊<a href="/" title="行星边际2_新手卡">行星边际2</a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    会员特权
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="梦幻西游特权礼包">梦幻西游</a>┊ <a href="/"  title="降龙之剑轩辕幻化福气包">降龙之剑</a>┊<a href="/"  title="降龙之剑极致版七剑修罗彩蛋礼包">降龙之剑极致版</a>┊<a href="/" title="问道1368天外飞仙会员贵宾卡">问道</a>┊<a href="/" title="大唐2特权礼包">大唐2</a>┊<a href="/" title="剑网3名驹卡">剑网3</a>┊<a href="/" title="龙之谷特权礼">龙之谷</a>┊<a href="/"  title="神雕侠侣特权礼包">神雕侠侣</a>┊<a href="/"  title="倩女幽魂特权礼包">倩女幽魂</a>┊<a href="/"  title="月影传说特权礼包">月影传说</a><br/><a href="/" title="九阴真经寻无止境礼包">九阴真经</a>┊<a href="/" title="星辰变会员特权礼包">星辰变</a>┊<a href="/" title="传奇世界2会员特权礼包">传奇世界2</a>┊<a href="/" title="成吉思汗3会员特权礼包">成吉思汗3</a>┊<a href="/" title="梦三国会员特权礼包">梦三国</a>┊<a href="/" title="逍遥江湖特权礼包">逍遥江湖</a>┊<a href="/" title="征途2S特权礼包">征途2S</a>┊<a href="/" title="画皮II特权礼包">画皮II</a> ┊<a href="/" title="更多微博会员特权"><font color="#FF0000">更多>></font></a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    手游推荐
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="热血兄弟_新手卡">热血兄弟</a>┊<a href="/" title="喵将传_新手卡">喵将传</a>┊<a href="/" title="百万亚瑟王_新手卡">百万亚瑟王</a>┊<a href="/" title="逆战幻想_新手卡">逆战幻想</a>┊<a href="/" title="混沌与秩序_新手卡">混沌与秩序</a>┊<a href="/" title="逆转天下_新手卡">逆转天下</a>┊<a href="/" title="王者之剑_新手卡">王者之剑</a>┊<a href="/" title="幻想英雄_新手卡">幻想英雄</a>┊<a href="/" title="水浒英雄_新手卡">水浒英雄</a><br/><a href="/" title="逆战幻想_新手卡">时空猎人</a>┊<a href="/" title="疯狂部落_新手卡">冒险王</a>┊<a href="/" title="英雄战魂_新手卡">英雄战魂</a>┊<a href="/" title="永生门_新手卡">永生门</a>┊<a href="/" title="流氓来了下_新手卡">流氓来了</a>┊<a href="/" title="轩辕_新手卡">轩辕</a>┊<a href="/" title="名将无双_新手卡">名将无双</a>┊<a href="/" title="战三国_新手卡">战三国</a>┊<a href="/" title="大掌门_新手卡">大掌门</a>┊<a href="/" title="热血海贼王_新手卡">热血海贼王</a>┊<a href="/" title="更多手游新手卡"><font color="#FF0000">更多>></font></a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    热门预订
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/"target="_blank" title="藏地传奇_新手卡">藏地传奇</a>┊
+                                    <a href="/"target="_blank" title="颓废之心_激活码">颓废之心</a>┊<a href="/"target="_blank" title="FireFall_激活码">FireFall</a>┊<a href="/"target="_blank" title="龙剑_激活码">龙剑</a>┊<a href="/"target="_blank" title="斗战神_激活码">斗战神</a>┊<a href="/"target="_blank" title="笑傲江湖OL_激活码">笑傲江湖OL</a>┊<a href="/"target="_blank" title="剑灵OL_激活码">剑灵OL</a>┊<a href="/"target="_blank" title="使命召唤OL_激活码">使命召唤OL</a>┊<a href="/"target="_blank" title="Dota2_激活码">Dota2</a>┊<a href="/"target="_blank" title="黑金_激活码">黑金</a>┊<a href="/"target="_blank" title="行星边际2_激活码">行星边际2</a><br />
+                                    <a href="/"target="_blank" title="激战2_激活码">激战2</a>┊<a href="/"target="_blank" title="黎明之光_激活码">黎明之光</a>┊<a href="/"target="_blank" title="天刹_激活码">天刹</a>┊<a href="/"target="_blank" title="上古世纪_激活码">上古世纪</a>┊<a href="/"target="_blank" title="最终幻想14_激活码">最终幻想14</a>┊<a href="/"target="_blank" title="圣斗士星矢_激活码">圣斗士星矢</a>┊<a href="/"target="_blank" title="泰坦战争_激活码">泰坦战争</a>┊<a href="/"target="_blank" title="无冬之夜OL_激活码">无冬之夜</a>┊<a href="/"target="_blank" title="企鹅战争_激活码">企鹅战争</a>┊<a href="/"target="_blank" title="魔界村OL_激活码">魔界村</a>
+                                    <a href="/" title="更多游戏预订"><font color="#FF0000">更多>></font></a>
+                                </div>
+                            </div>
+                            <div class="nav_li" style="border: 0;">
+                                <div class="nav_li_l">
+                                    专题活动
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="盘点那些伴你独霸武林的特权卡">盘点那些伴你独霸武林的特权卡</a>┊<a href="/" title="一周热门发卡TOP10">一周热门发卡TOP10（7.15-7.21）</a>┊<a href="/" title="美女最多网游推荐">美女最多的网游推荐</a>┊<a href="/" title="热门动漫改编网游新手卡推荐">动漫网游发卡推荐</a><br/>
+                                    <a href="/" title="《东方故事》找童年聚死党参与活动赢大奖">《东方故事》找童年聚死党参与活动赢大奖</a>┊<a href="/" title="领《蜀门》特权卡得越南妞签名靓照">领《蜀门》特权卡得越南妞签名靓照</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="game_hover">CGWR排行榜</a>
+                    <div class="hover_cont cgwr">
+                        <div class="nav_cont">
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    网游排行
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="星际争霸2：虫群之心_CGWR">No.1：星际争霸2：虫群之心</a>┊<a href="/" title="龙之谷_CGWR">No.2：龙之谷</a>┊<a href="/"target="_blank" title="怪物猎人Online_CGWR">No.3：怪物猎人OL</a>┊<a href="/"target="_blank" title="英雄三国_CGWR">No.4：英雄三国</a><br><a href="/" title="画皮世界_CGWR">No.5：画皮世界</a>┊<a href="/" title="圣王_CGWR">No.6：圣王</a>┊<a href="/"target="_blank" title="寻龙记_CGWR">No.7：寻龙记</a>┊<a href="/" title="无尽英雄_CGWR">No.8：无尽英雄</a>┊<a href="/" title="龙门客栈_CGWR">No.9：龙门客栈</a><br><a href="/" title="斗仙_CGWR">No.10：斗仙</a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    特色专题
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="DOTA类网游横向对比专题_CGWR">DOTA类网游横向对比专题</a>┊<a href="/" title="CGWR横向对比专题第二期_CGWR">《魔兽世界》VS《剑侠情缘网络版3》</a>┊<a href="/" title="第五期：从E3展会网游看国游前景_CGWR">从E3展会网游看国游前景</a><br/><a href="/" title="第四期：高考后玩网游_CGWR">网游知识重点指南</a>┊<a href="/" title="第15期 青年节_CGWR">游戏陪你走过的青春</a>┊<a href="/" title="母亲节，游戏中塑造的妈妈们_CGWR">母亲节，游戏中塑造的妈妈们</a>┊<a href="/" title="网络游戏排行榜_CGWR" class="orange">更多>></a>
+                                </div>
+                            </div>
+                            <div class="nav_li" style="border: 0;">
+                                <div class="nav_li_l">
+                                    深度评测
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="《星际争霸2：虫群之心》深度评测_CGWR">《星际争霸2：虫群之心》深度评测</a>┊<a href="/" title="《超能战联》深度评测_CGWR">《超能战联》深度评测</a>┊<a href="/" title="《怪物猎人Online》深度评测_CGWR">《怪物猎人Online》深度评测</a><br/><a href="/" title="《格子RPG》深度评测_CGWR">《格子RPG》深度评测</a>┊<a href="/" title="《战机世界》深度评测_CGWR">《战机世界》深度评测</a>┊<a href="/" title="《黑金》深度评测_CGWR">《黑金》深度评测</a>┊<a href="/" title="专题首页_CGWR" class="orange">更多>></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="game_hover">下载</a>
+                    <div class="hover_cont xz">
+                        <div class="nav_cont">
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    热门游戏
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="魔兽世界">魔兽世界</a>┊<a href="/" title="DOTA2">DOTA2</a>┊<a href="/" title="梦三国">梦三国</a>┊<a href="/" title="剑侠情缘3">剑侠情缘3</a>┊<a href="/" title="颓废之心">颓废之心</a>┊<a href="/" title="神鬼世界">神鬼世界</a>┊<a href="/" title="诛仙2">诛仙2</a>┊<a href="/" title="问道">问道</a>┊<a href="/" title="传奇世界2">传奇世界2</a><br />
+                                    <a href="/" title="九阴真经">九阴真经</a>┊<a href="/" title="剑灵">剑灵</a>┊<a href="/" title="诺亚传说">诺亚传说</a>┊<a href="/" title="坦克世界">坦克世界</a>┊<a href="/" title="天龙八部">天龙八部</a>┊<a href="/" title="神雕侠侣">神雕侠侣</a>┊<a href="/" title="画皮2">画皮2</a>┊<a href="/" title="神武">神武</a>┊<a href="/" title="新征途">新征途</a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    单机游戏
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="仙剑5前传">仙剑5前传</a>┊<a href="/" title="孤岛危机3">孤岛危机3</a>┊<a href="/" title="极品飞车17">极品飞车17</a>┊<a href="/" title="杀手5">杀手5</a>┊<a href="/" title="孤岛惊魂3">孤岛惊魂3</a>┊<a href="/" title="使命召唤9">使命召唤9</a>┊<a href="/" title="强袭装甲零号">强袭装甲零号</a>┊<a href="/" title="更多单机游戏下载" class="orange">更多>></a>
+                                </div>
+                            </div>
+                            <div class="nav_li" style="border: 0;">
+                                <div class="nav_li_l">
+                                    电视游戏
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="DMC：鬼泣">DMC：鬼泣</a>┊<a href="/" title="光环4">光环4</a>┊<a href="/" title="生化危机6">生化危机6</a>┊<a href="/" title="零：真红之蝶">零：真红蝶</a>┊<a href="/" title="马克思佩恩3">马克思佩恩3</a>┊<a href="/" title="刺客信条3">刺客信条3</a>┊<a href="/" title="使命召唤9">使命召唤9</a>┊<a href="/" title="更多电视游戏下载" class="orange">更多>></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="game_hover">美图</a>
+                    <div class="hover_cont mt">
+                        <div class="nav_cont">
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    美女访谈
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="女星代言网游美妆造型大比拼">女星代言网游美妆造型大比拼</a>┊<a href="/" title="雅典娜COSer歪歪写真">雅典娜COSer歪歪写真</a>┊<a href="/" title="AKB48模特篠田麻里子写真">AKB48篠田麻里子写真</a>┊<a href="/" title="更多" class="orange">更多>></a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    游戏壁纸
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="《远征OL》高清壁纸">《远征OL》高清壁纸</a>┊<a href="/" title="《颓废之心》游戏壁纸">《颓废之心》游戏壁纸</a>┊<a href="/" title="《龙神三国》游戏壁纸">《龙神三国》游戏壁纸</a>┊<a href="/" title="更多" class="orange">更多>></a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    Cosplay
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="无限下全球性感COSER赏">无限下全球性感COSER赏</a>┊<a href="/" title="肉作《女王之刃》Cosplay">肉作《女王之刃》Cosplay</a>┊<a href="/" title="知名Coser红玥最新作">知名Coser红玥最新作</a>┊<a href="/" title="更多" class="orange">更多>></a>
+                                </div>
+                            </div>
+                            <div class="nav_li" style="border: 0;">
+                                <div class="nav_li_l">
+                                    游戏截图
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="《DOTA2》评测截图">《DOTA2》评测截图</a>┊<a href="/" title="《三界西游2》游戏截图">《三界西游2》游戏截图</a>┊<a href="/" title="《地狱闯关》截图">《地狱闯关》截图</a>┊<a href="/" title="更多"class="orange">更多>></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="game_hover">看游戏</a>
+                    <div class="hover_cont kyx">
+                        <div class="nav_cont">
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    热门游戏
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="远征OL">远征OL</a>┊<a href="/" title="武林外传">武林外传</a>┊<a href="/" title="桃花源记">桃花源记</a>┊<a href="/" title="圣斗士星矢">圣斗士星矢</a>┊<a href="/" title="颓废之心">颓废之心</a>┊<a href="/" title="龙神大陆">龙神大陆</a>┊<a href="/" title="奇迹世界">奇迹世界</a>┊<a href="/" title="问道">问道</a> <br>
+                                    <a href="/" title="鹿鼎记">鹿鼎记</a>┊<a href="/" title="诺亚传说">诺亚传说</a>┊<a href="/" title="画皮世界">画皮世界</a>┊<a href="/" title="桃园将星录">桃园将星录</a>┊<a href="/" title="英雄三国">英雄三国</a>┊<a href="/" title="末日重生">末日重生</a>┊<a href="/" title="笑傲江湖">笑傲江湖</a>┊<a href="/" title="狂刃">狂刃</a> <br/>
+                                    <a href="/" title="零世界">零世界</a>┊<a href="/" title="无尽英雄">无尽英雄</a>┊<a href="/" title="比尔总动员">比尔总动员</a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    活动赛事
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="CDEC2013大师赛">CDEC2013大师赛</a>┊<a href="/" title="《零世界》美女直播人气PK">《零世界》美女直播人气PK</a>┊<a href="/" title="《远征OL》全球108神将争夺战">《远征OL》全球108神将争夺战</a><br/>
+                                    <a href="/" title="DotA2超级联赛">DotA2超级联赛</a> ┊<a href="/" title="《英雄联盟》夏季联赛">《英雄联盟》夏季联赛直播</a>┊<a href="/" title="游戏风云直播频道">游戏风云直播频道</a>
+                                </div>
+                            </div>
+                            <div class="nav_li" style="border: 0;">
+                                <div class="nav_li_l">
+                                    美女主播
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="小D《画皮世界》">小D《画皮世界》</a> ┊<a href="/" title="婧婧《笑傲江湖》">婧婧《笑傲江湖》</a>　┊<a href="/" title="白鹭《圣斗士星矢》">白鹭《圣斗士星矢》</a>┊<a href="/" title="饭饭《末日重生》">饭饭《末日重生》</a><br/>
+                                    <a href="/" title="帝尧《颓废之心》">帝尧《颓废之心》</a>┊<a href="/" title="小怪《无尽英雄》">小怪《无尽英雄》</a>　┊<a href="/" title="小狐狸《龙神大陆》">小狐狸《龙神大陆》</a>┊<a href="/" title="血纯雅茗《武林外传》">血纯雅茗《武林外传》</a><br/>
+                                    <a href="/" title="魏猫猫《狂刃》">魏猫猫《狂刃》</a>　┊<a href="/" title="孤凰歌《奇迹世界》">孤凰歌《奇迹世界》</a>┊<a href="/" title="蘑菇《比尔总动员》">蘑菇《比尔总动员》</a>　<a href="/" title="更多" class="orange">更多>></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="game_hover">微坛</a>
+                    <div class="hover_cont wt">
+                        <div class="nav_cont">
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    热门网游
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="魔兽世界">魔兽世界</a>┊<a href="/" title="诛仙">诛仙</a>┊<a href="/" title="剑网3">剑网3</a>┊<a href="/" title="龙之谷">龙之谷</a>┊<a href="/"  title="坦克世界">坦克世界</a>┊<a href="/" title="英雄联盟">英雄联盟</a>┊<a href="/" title="剑灵">剑灵</a><br><a href="/" title="DOTA2">DOTA2</a>┊<a href="/" title="九阴真经OL">九阴真经OL</a>┊<a href="/" title="怪物猎人OL">怪物猎人OL</a>  <a href="/" title="新浪游戏微坛" class="orange">更多>></a>
+                                </div>
+                            </div>
+                            <div class="nav_li" style="border: 0;">
+                                <div class="nav_li_l">
+                                    热门单机
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="仙剑奇侠传">仙剑奇侠传</a>┊<a href="/" title="古剑奇谭">古剑奇谭</a>┊<a href="/" title="轩辕剑">轩辕剑</a> <a href="/" title="新浪游戏微坛" class="orange">更多>></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="game_hover">产业</a>
+                    <div class="hover_cont cy">
+                        <div class="nav_cont">
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    产业观察
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="产业新闻">产业新闻</a>┊<a href="/" title="微博资讯">微博资讯</a>┊<a href="/" title="一起创业吧">一起创业吧</a>┊<a href="/" title="老意专栏">老意专栏</a>┊<a href="/" title="产业周刊">产业周刊</a>┊<a href="/" title="热点专题">热点专题</a>┊<a href="/" title="手机报">手机报</a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    游戏大汇站
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="射雕ZERO">射雕ZERO</a>┊
+                                    <a href="/" title="爆裂天空">爆裂天空</a>┊
+                                    <a href="/" title="超能战联">超能战联</a>┊
+                                    <a href="/" title="大海战3">大海战3</a>┊
+                                    <a href="/" title="颓废之心">颓废之心</a>┊
+                                    <a href="/" title="黑金">黑金</a>┊
+                                    <a href="/" title="游戏大汇站" class="orange">更多>></a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    微专题推荐
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="腾讯">腾讯2013年度游戏发布会</a>┊<a href="/" title="电竞">电竞选手高考可加分？</a>┊<a href="/" title="微博营销">游戏微博营销Style</a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    一周最闻
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="chinajoy">2013chinajoy报道</a>┊<a href="/" title="游戏英雄榜获奖名单">游戏英雄榜获奖名单</a>┊<a href="/" title="爆老公魔兽ID求追杀">爆老公魔兽ID求追杀</a>┊<a href="/" title="更多" class="orange">更多>></a>
+                                </div>
+                            </div>
+                            <div class="nav_li" style="border: 0;">
+                                <div class="nav_li_l">
+                                    热门专题
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="网吧">2012中国网吧行业报告</a>┊<a href="/" title="微博影响力">3月微博影响力排行</a>┊<a href="/" title="盘点">315：玩家可曾做上帝？</a>┊<a href="/" title="热门专题" class="orange">更多>></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="game_hover">微博</a>
+                    <div class="hover_cont wb">
+                        <div class="nav_cont">
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    热点导航
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="名人微访谈">名人微访谈</a>┊<a href="/" title="游戏微话题">游戏微话题</a>┊<a href="/" title="申V小贴士">申V小贴士</a>┊<a href="/" title="游戏V时代">游戏V时代</a>┊<a href="/" title="热门微应用">热门微应用</a>┊<a href="/" title="游戏微博汇">游戏微博汇</a>┊<a href="/" title="微博名人榜">微博名人榜</a>┊<a href="/" title="微博大屏幕">微博大屏幕</a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    游戏微博汇
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="盛大游戏">盛大游戏</a>┊<a href="/" title="巨人网络">巨人网络</a>┊<a href="/" title="完美世界">完美世界</a>┊<a href="/" title="第九城市">第九城市</a>┊<a href="/" title="麒麟游戏">麒麟游戏</a>┊<a href="/" title="金山游戏">金山游戏</a>┊<a href="/" title="梦工厂">梦工厂</a>┊<a href="/" title="蓝港在线">蓝港在线</a>┊<a href="/" title="昆仑在线">昆仑在线</a>┊<a href="/" title="中青宝">中青宝</a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    热门微游戏
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="动物大战">动物大战</a>┊<a href="/" title="火影无双">火影无双</a>┊<a href="/" title="咖啡恋人">咖啡恋人</a>┊<a href="/" title="热血球球2">热血球球2</a>┊<a href="/" title="球王争霸">球王争霸</a>┊<a href="/" title="公主的防线">公主的防线</a>┊<a href="/" title="神仙道">神仙道</a>┊<a href="/" title="德克萨斯扑克">德克萨斯扑克</a>┊<a href="/" title="小小海贼王">小小海贼王</a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    账号互通
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="赤壁">赤壁</a>┊<a href="/" title="成吉思汗3">成吉思汗3</a>┊<a href="/" title="兵王">兵王</a>┊<a href="/" title="圣境传说">圣境传说</a>┊<a href="/" title="星辰变">星辰变</a>┊<a href="/" title="佣兵天下">佣兵天下</a>┊<a href="/" title="封神·飞仙传">封神·飞仙传</a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    官方微博
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="新浪游戏频道">新浪游戏频道</a>┊<a href="/" title="新浪游戏播报">新浪游戏播报</a>┊<a href="/" title="新浪游戏微坛">新浪游戏微坛</a>┊<a href="/" title="新浪游戏活动">新浪游戏活动</a>┊<a href="/" title="新浪看游戏">看游戏</a>┊<a href="/" title="游戏大汇站">游戏大汇站</a>┊<a href="/" title="一起创业吧">创业吧</a>┊<a href="/" title="新浪新网游">新浪新网游</a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    热门微博
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="魔兽世界">魔兽世界</a>┊<a href="/" title="剑网3">剑网3</a>┊<a href="/" title="九阴真经">九阴真经</a>┊<a href="/" title="魔域">魔域</a>┊<a href="/" title="新征途">新征途</a>┊<a href="/" title="仙剑奇侠传">仙剑奇侠传</a>┊<a href="/" title="神雕侠侣">神雕侠侣</a>┊<a href="/" title="全球使命">全球使命</a>┊<a href="/" title="坦克世界">坦克世界</a>┊<a href="/" title="大唐无双2" >大唐无双2</a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    业内名家
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="庹祖海">庹祖海</a>┊<a href="/" title="史玉柱">史玉柱</a>┊<a href="/" title="凌海">凌海</a>┊<a href="/" title="谭群钊">谭群钊</a>┊<a href="/" title="石海">石海</a>┊<a href="/" title="刘伟" >刘伟</a>┊<a href="/" title="朴舜优">朴舜优</a>┊<a href="/" title="纪学锋">纪学锋</a>┊<a href="/" title="吴裔敏" >吴裔敏</a>┊<a href="/" title="陈芳" >陈芳</a>┊<a href="/" title="彭蛟斌" >彭蛟斌</a>┊<a href="/" title="姚壮宪">姚壮宪</a>┊<a href="/" title="邢山虎">邢山虎</a>
+                                </div>
+                            </div>
+                            <div class="nav_li" style="border: 0;">
+                                <div class="nav_li_l">
+                                    游戏博客
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="苹果牛">苹果牛</a>┊<a href="/" title="李晓峰" >李晓峰</a>┊<a href="/" title="张书乐">张书乐</a>┊<a href="/" title="姚宇">姚宇</a>┊<a href="/" title="饼干" >饼干</a>┊<a href="/" title="无名小卒">无名小卒</a>┊<a href="/" title="小易">小易</a>┊<a href="/" title="明湖水怪">明湖水怪</a>┊<a href="/" title="邈尔">邈尔</a>┊<a href="/" title="墨子雪" >墨子雪</a>┊<a href="/" title="東寫西讀" >東寫西讀</a>┊<a href="/" title="更多博客" class="orange">更多>></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="game_hover">小游戏</a>
+                    <div class="hover_cont xyx">
+                        <div class="nav_cont">
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    热门导航
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="积分">积分</a>┊<a href="/" title="益智">益智</a>┊<a href="/" title="射击">射击</a>┊<a href="/" title="动作">动作</a>┊<a href="/" title="RPG">RPG</a>┊<a href="/" title="敏捷">敏捷</a>┊<a href="/" title="解谜">解谜</a>┊<a href="/" title="体育">体育</a>┊<a href="/" title="战争">战争</a>┊<a href="/" title="休闲">休闲</a>┊<a href="/" title="赛车">赛车</a>┊<a href="/" title="防守">防守</a>┊<a href="/" title="换装">换装</a>┊<a href="/" title="棋牌">棋牌</a>┊<a href="/" title="测试">测试</a>┊<a href="/" title="格斗">格斗</a>┊<a href="/"target="_blank" title="经营">经营</a>
+                                </div>
+                            </div>
+                            <div class="nav_li" style="border: 0;">
+                                <div class="nav_li_l">
+                                    专题推荐
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="连连看">连连看</a>┊<a href="/" title="愤怒的小鸟">愤怒的小鸟</a>┊<a href="/" title="经典集装箱">经典集装箱</a>┊<a href="/" title="中文精品">中文精品</a>┊<a href="/" title="热血足球">热血足球</a>┊<a href="/" title="十大必玩小游戏">十大必玩小游戏</a>┊<a href="/" title="火影忍者">火影忍者</a>┊<a href="/" title="合金弹头">合金弹头</a>┊<a href="/" title="双人版">双人版</a>┊<a href="/" title="僵尸">僵尸</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="game_hover">视频</a>
+                    <div class="hover_cont sp">
+                        <div class="nav_cont">
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    视频导航
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="新游视频">新游视频</a>┊<a href="/" title="电视单机">电视单机</a>┊<a href="/" title="直播专访">直播专访</a>┊<a href="/" title="游戏美女">游戏美女</a>┊<a href="/" title="电子竞技">电子竞技</a>┊<a href="/" title="暗黑3视频站">暗黑3视频站</a>┊<a href="/" title="魔兽视频站">魔兽视频站</a>┊<a href="/" title="更多" class="orange">更多>></a>
+                                </div>
+                            </div>
+                            <div class="nav_li">
+                                <div class="nav_li_l">
+                                    沸点新播报
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="嫩模女优代言盘点">女优代言盘点</a>┊
+                                    <a href="/" title="明星美女代言盘点">明星代言盘点</a>┊
+                                    <a href="/" title="ChinaJoy Showgirl曝光">CJ Showgirl曝光</a>┊
+                                    <a href="/" title="凤凰传奇注资投网游">凤凰传奇注资投网游</a>┊
+                                    <a href="/" title="AV女优的二次元世界">AV女优的二次元世界</a>┊
+                                    <a href="/" title="更多" class="orange">更多>></a>
+                                </div>
+                            </div>
+                            <div class="nav_li" style="border: 0;">
+                                <div class="nav_li_l">
+                                    游戏视频
+                                </div>
+                                <div class="nav_li_r">
+                                    <a href="/" title="超赞COSPLAY视频剪辑 ">超赞COSPLAY视频剪辑</a>┊<a href="/" title="游戏圣地秋叶原 阿酱上演AKB绝唱">阿酱上演AKB绝唱</a>┊<a href="/" title="秋叶原的陪睡屋">陪睡屋</a>┊<a href="/" title="女仆店的真相">女仆店的真相</a>┊<a href="/" title="MaggieQ版不知火舞">电影版不知火舞</a>┊<a href="/" title="视频收录百名ChinaJoy美女ShowGirl">百名美女ShowGirl</a>┊<a href="/" title="更多" class="orange">更多>></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="game_hover">游戏商城</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="content">
+</div>
+</body>
+</html>
